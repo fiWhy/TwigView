@@ -79,7 +79,11 @@ class TwigView extends View {
  * @param Controller $Controller Controller
  */
 	public function __construct(Controller $Controller = null) {
-		$this->templatePaths = App::path('View');
+		if (!empty($Controller->plugin) && $Controller->plugin == 'Admin') {
+            $this->templatePaths = App::path('View', 'Admin');
+        } else {
+            $this->templatePaths = App::path('View');
+        }
 		$loader = new Twig_Loader_Filesystem($this->templatePaths[0]);
 		$this->Twig = new Twig_Environment($loader, array(
 			'cache' => TWIG_VIEW_CACHE,
